@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ms.shop.application.Commands;
 using ms.shop.application.Mappers;
+using ms.shop.application.Services;
 using ms.shop.domain.Interfaces;
 using ms.shop.infrastructure.Data;
 using ms.shop.infrastructure.Repository;
@@ -21,6 +22,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt => {
 
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 builder.Services.AddMediatR(typeof(CreateOrderCommand).Assembly); // .GetExecutingAssembly());
 //builder.Services.AddScoped<IMapper, Mapper>();  

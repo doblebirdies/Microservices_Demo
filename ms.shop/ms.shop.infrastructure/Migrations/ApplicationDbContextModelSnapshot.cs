@@ -34,10 +34,16 @@ namespace ms.shop.infrastructure.Migrations
                         .HasPrecision(10, 3)
                         .HasColumnType("decimal(10,3)");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("OrderDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("Date")
                         .HasDefaultValueSql("GetDate()");
+
+                    b.Property<DateTime?>("PreparingDate")
+                        .HasColumnType("Date");
 
                     b.Property<decimal>("Price")
                         .HasPrecision(10, 3)
@@ -50,6 +56,9 @@ namespace ms.shop.infrastructure.Migrations
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("ShippingDate")
+                        .HasColumnType("Date");
 
                     b.HasKey("Id");
 

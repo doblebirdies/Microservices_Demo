@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ms.shop.infrastructure.Migrations
 {
-    public partial class Initialmigration : Migration
+    public partial class Migracióninicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,7 +19,10 @@ namespace ms.shop.infrastructure.Migrations
                     Price = table.Column<decimal>(type: "decimal(10,3)", precision: 10, scale: 3, nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(10,3)", precision: 10, scale: 3, nullable: false),
-                    OrderDate = table.Column<DateTime>(type: "Date", nullable: false, defaultValueSql: "GetDate()")
+                    OrderDate = table.Column<DateTime>(type: "Date", nullable: false, defaultValueSql: "GetDate()"),
+                    PreparingDate = table.Column<DateTime>(type: "Date", nullable: true),
+                    ShippingDate = table.Column<DateTime>(type: "Date", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

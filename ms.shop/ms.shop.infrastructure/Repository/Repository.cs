@@ -23,8 +23,8 @@ namespace ms.shop.infrastructure.Repository
         public async Task DeleteAsync(int id)
         {
             T entity = await context.Set<T>().FindAsync(id);
-            if (entity != null)
-                context.Set<T>().Remove(entity);
+            if (entity != null)            
+                context.Set<T>().Remove(entity);                
         }       
 
         public async Task<IEnumerable<T>> GetAllAsync()

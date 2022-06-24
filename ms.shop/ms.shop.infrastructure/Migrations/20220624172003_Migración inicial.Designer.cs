@@ -12,8 +12,8 @@ using ms.shop.infrastructure.Data;
 namespace ms.shop.infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220623182606_Initial migration")]
-    partial class Initialmigration
+    [Migration("20220624172003_Migración inicial")]
+    partial class Migracióninicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,10 +36,16 @@ namespace ms.shop.infrastructure.Migrations
                         .HasPrecision(10, 3)
                         .HasColumnType("decimal(10,3)");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("OrderDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("Date")
                         .HasDefaultValueSql("GetDate()");
+
+                    b.Property<DateTime?>("PreparingDate")
+                        .HasColumnType("Date");
 
                     b.Property<decimal>("Price")
                         .HasPrecision(10, 3)
@@ -52,6 +58,9 @@ namespace ms.shop.infrastructure.Migrations
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("ShippingDate")
+                        .HasColumnType("Date");
 
                     b.HasKey("Id");
 
