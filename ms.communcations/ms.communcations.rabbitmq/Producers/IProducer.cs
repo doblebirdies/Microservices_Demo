@@ -4,6 +4,6 @@ namespace ms.communcations.rabbitmq.Producers
 {
     public interface IProducer
     {
-        void Producer(IRabbitMqEvent rabbitmqEvent);
+        void SendMessage(IRabbitMqEvent rabbitmqEvent);
     }
 }

@@ -2,6 +2,7 @@
 using MediatR;
 using ms.communcations.rabbitmq.Consumers;
 using ms.communcations.rabbitmq.Events;
+using ms.communications.rabbitmq.Events;
 using ms.storage.application.Commands;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -29,6 +30,11 @@ namespace ms.storage.api.Consumers
 
         public void Subscribe()
         {
+
+
+            o hay una forma genérica (que puede estar en el curso de udemy), o hay que crear un createproductconsumer y un preparedproductconsumer, es decir una clase para cada consumidor y añadirlos todos en el program como el actual
+
+
             var factory = new ConnectionFactory()
             {
                 HostName = configuration.GetValue<string>("Communication:EventBus:HostName")
@@ -36,7 +42,7 @@ namespace ms.storage.api.Consumers
             connection = factory.CreateConnection();
             var channel = connection.CreateModel();
 
-            var queue = typeof(PreparedProductEvent).Name;
+            var queue = typeof(OrderCreatedEvent).Name;
 
             channel.QueueDeclare(queue, durable: true, exclusive: false, autoDelete: false, null);
 
@@ -48,13 +54,13 @@ namespace ms.storage.api.Consumers
 
         private async void ReceivedEvent(object sender, BasicDeliverEventArgs e)
         {
-            if (e.RoutingKey == typeof(PreparedProductEvent).Name)
+            if (e.RoutingKey == typeof(OrderCreatedEvent).Name)
             {
                 var message = Encoding.UTF8.GetString(e.Body.Span);
-                var preparedProductEvent = JsonSerializer.Deserialize<PreparedProductEvent>(message);
-
-                var result = await mediator.Send(mapper.Map<PreparedProductCommand>(preparedProductEvent));
-            }
+                var product = JsonSerializer.Deserialize<OrderCreatedEvent>(message);
+                
+                var result = await mediator.Send(new PreparedProductCommand(product.Product));
+            }            
         }
 
 

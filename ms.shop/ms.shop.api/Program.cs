@@ -1,5 +1,7 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using ms.communcations.rabbitmq.Producers;
 using ms.shop.application.Commands;
 using ms.shop.application.Mappers;
 using ms.shop.application.Services;
@@ -24,10 +26,14 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddScoped<IStorageApi, StorageService>();
+builder.Services.AddScoped(typeof(IProducer), typeof(EventProducer));
 
-builder.Services.AddMediatR(typeof(CreateOrderCommand).Assembly); // .GetExecutingAssembly());
-//builder.Services.AddScoped<IMapper, Mapper>();  
-builder.Services.AddAutoMapper(typeof(OrderMapperProfile).Assembly);
+builder.Services.AddMediatR(typeof(CreateOrderCommand).Assembly); 
+
+var automapperConfig = new MapperConfiguration(mapperConfig =>
+{ mapperConfig.AddMaps(typeof(OrderMapperProfile).Assembly); });
+IMapper mapper = automapperConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
 
 var app = builder.Build();
 

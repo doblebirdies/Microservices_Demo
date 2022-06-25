@@ -12,7 +12,6 @@ namespace ms.communications.rabbitmq.Events
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public decimal Amount { get; set; }
-        public DateTime OrderDate { get; set; }        
         public string Email { get; set; }
     }
 }

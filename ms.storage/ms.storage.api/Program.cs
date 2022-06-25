@@ -1,6 +1,9 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using ms.communcations.rabbitmq.Consumers;
+using ms.communcations.rabbitmq.Middlewares;
 using ms.communcations.rabbitmq.Producers;
+using ms.storage.api.Consumers;
 using ms.storage.application.Commands;
 using ms.storage.application.Mappers;
 using ms.storage.domain.Interfaces;
@@ -25,6 +28,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt =>
 builder.Services.AddAutoMapper(typeof(ProductMapperProfile).Assembly);
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddMediatR(typeof(CreateProductCommand).Assembly);
+
+builder.Services.AddSingleton(typeof(IConsumer), typeof(ProductConsumer));
+
+builder.Services.AddHostedService<UseRabbitConsumer>();
+
 
 var app = builder.Build();
 

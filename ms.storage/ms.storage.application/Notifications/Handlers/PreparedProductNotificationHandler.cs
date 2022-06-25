@@ -18,7 +18,7 @@ namespace ms.storage.application.Notifications.Handlers
 
         public Task Handle(PreparedProductNotification notification, CancellationToken cancellationToken)
         {                       
-            producer.Producer(mapper.Map<PreparedProductEvent>(notification));
+            producer.SendMessage(mapper.Map<PreparedProductEvent>(notification));
             return Task.CompletedTask;
         }
     }

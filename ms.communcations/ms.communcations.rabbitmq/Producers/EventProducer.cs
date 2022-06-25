@@ -14,7 +14,7 @@ namespace ms.communcations.rabbitmq.Producers
             this.configuration = configuration;
         }
 
-        public void Producer(IRabbitMqEvent rabbitmqEvent)
+        public void SendMessage(IRabbitMqEvent rabbitmqEvent)
         {
             var factory = new ConnectionFactory()
             {

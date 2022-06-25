@@ -25,7 +25,7 @@ namespace ms.shop.application.Commands.Handlers
             await orderRepository.AddAsync(mapper.Map<Order>(request.order));
             var response = await orderRepository.SaveChangesAsync();
 
-            producer.Producer(mapper.Map<OrderCreatedEvent>(request));
+            producer.SendMessage(mapper.Map<OrderCreatedEvent>(request.order));
 
             return response;
             
