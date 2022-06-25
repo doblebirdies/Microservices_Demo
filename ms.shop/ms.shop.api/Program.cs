@@ -23,6 +23,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt => {
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.AddScoped<IStorageApi, StorageService>();
 
 builder.Services.AddMediatR(typeof(CreateOrderCommand).Assembly); // .GetExecutingAssembly());
 //builder.Services.AddScoped<IMapper, Mapper>();  

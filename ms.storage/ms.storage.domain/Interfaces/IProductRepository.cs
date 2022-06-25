@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ms.storage.domain.Entities;
 
 namespace ms.storage.domain.Interfaces
 {
-    internal class IProductRepository
+    public interface IProductRepository : IRepository<Product>
     {
+        Task<bool> GetProductStock(string productName);
     }
 }

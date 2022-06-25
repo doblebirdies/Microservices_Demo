@@ -4,6 +4,7 @@ using ms.shop.application.Commands;
 using ms.shop.application.DTOs;
 using ms.shop.application.Notifications;
 using ms.shop.application.Queries;
+using ms.shop.application.Services;
 
 namespace ms.shop.api.Controllers
 {
@@ -12,35 +13,32 @@ namespace ms.shop.api.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IMediator mediator;
+        private readonly IStorageApi storageApi;
 
-        public OrderController(IMediator mediator)
+        public OrderController(IMediator mediator, IStorageApi storageApi)
         {
             this.mediator = mediator;
+            this.storageApi = storageApi;
         }
 
 
         [HttpPost("[action]")]
         public async Task<ActionResult> CreateOrder([FromBody] OrderCreateDto order)
         {
-            //Verificamos si hay stock con refit
-            int a = 1; int b = 1;
-            if (a == b)
-            {                
+            //Verificamos si hay stock del producto mediante el servicio que creamos utilizando Refit
+            //para llamar al método creado en el microservicio ms.storage
+            if (!await storageApi.StockAvailable(order.Product))
+            {
                 //Si NO hay stock
                 await mediator.Publish(new OrderCanceledNotification(order.Email));
                 //A su vez vamos a guardar el pedido pero con cantidad y precio 0
-                //en email el texto "pedido cancelado por falta de stock" para poder verificar que ha funcionado
+                //en email el texto "pedido cancelado por falta de stock" para que quede registrado
                 order.Price = 0;
                 order.Quantity = 0;
                 order.Amount = 0;
                 order.Email = "Pedido cancelado por falta de stock";
-                await mediator.Send(new CreateOrderCommand(order));
-                return Ok("Pedido cancelado por falta de stock");
             }
-            else
-                //Si hay stock
-                return Ok(await mediator.Send(new CreateOrderCommand(order)));
-
+            return Ok(await mediator.Send(new CreateOrderCommand(order)));
         }
 
         [HttpGet("[action]")]

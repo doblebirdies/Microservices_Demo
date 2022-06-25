@@ -4,7 +4,7 @@
     {
         public void SendOrderCanceledEmail(string email)
         {
-            Console.WriteLine("Su pedido ha sido candelado por falta de stock");
+            Console.WriteLine("Su pedido ha sido cancelado por falta de stock");
         }
 
         public void SendOrderPreparedEmail(string email)

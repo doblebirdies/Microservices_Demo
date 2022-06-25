@@ -9,9 +9,11 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="MediatR" Version="10.0.1" />
+    <PackageReference Include="Refit" Version="6.3.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ms.communcations\ms.communcations.rabbitmq\ms.communications.rabbitmq.csproj" />
     <ProjectReference Include="..\ms.shop.domain\ms.shop.domain.csproj" />
     <ProjectReference Include="..\ms.shop.infrastructure\ms.shop.infrastructure.csproj" />
   </ItemGroup>
