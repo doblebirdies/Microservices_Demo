@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using AutoMapper
+using MediatR
 using Microsoft.AspNetCore.Mvc;
 using ms.shop.application.Commands;
 using ms.shop.application.DTOs;
