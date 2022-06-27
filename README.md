@@ -1,6 +1,6 @@
 # Microservices Demo
 
-##Proyecto con dos microservicios para mostrar ejemplo de comunicación
+## Proyecto con dos microservicios para mostrar ejemplo de comunicación
 
 En primer lugar simulamos un microservicios de una tienda ms.shop con sus acciones de CrearPedido, BorrarPedido. 
 Utilizamos el patrón CQRS, una base de datos SQLServer y aunque no está implementado así por no ser el objetivo del ejemplo, 
