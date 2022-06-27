@@ -16,17 +16,14 @@ RabbitMQ:
 1) La acción "CrearPedido" se comunica con el microservicio almacén mediante http utilizando Redfit para verificar si hay stock con la acción "StockDisponible" :
 
 	a) Si no hay stock emite una notificación mediante el patrón CQRS avisando al cliente de que su pedido no puede ser enviado. 
-	b) Si hay stcok el productor "CrearPedido" envía un mensaje a la cola "Pedidos" a la que está suscrito el consumidor "PrepararPedido".
+	
+	b) Si hay stcok el productor "CrearPedido" envía un mensaje a la cola "OrderCreated" a la que está suscrito el consumidor "ProductConsumer".
 
-2) Este consumidor "PrepararPedido" una vez termina:
+2) Este consumidor "ProductConsumer" una vez preparado el pedido emite una notificación mediante CQRS:
 
-	a)envía un mensaje a la cola "PedidoPreparado", a la que está suscrito el consumidor "AvisarCliente" que enviará un correo al cliente indicando que su pedido ya está listo para enviarse. 
-	b)emite una notificación de nuevo con el patron CQRS, que hace una llamada a "EnviarPedido" dentro del mismo servicio
+	a)envía un mensaje a la cola "OrderPrepared", a la que está suscrito el consumidor "OrderConsumer" que enviará un correo al cliente indicando que su pedido ya está preparado
+	
+	b)Ejecuta la opción de emvia rpedido (simulada con sleep) y envía un mensaje a la cola "OrderShipped" para enviar correo al cliente.
 
-3)El Productor "EnviarPedido" envía un mensaje a la cola "Clientes" 
-4)El consumidor "AvisarCliente" leer este mensaje y envía un mensaje al cliente avisando de que su pedido se ha enviado.
+Como podemos ver, tenemos comandos, consultas y notificaciones con CQRS, comunicación con mensajería de colas con RabbitMQ y comunicación por http con Refit.
 
-Como podemos ver, tenemos notificacione sinternas con CQRS, comunicación con mnesajería de colas con RabbitMQ y comunicación por http con Refit, además tenemos un mismo 
-servicio consumiendo de dos colas diferentes, "AvisarCliente", suscrito a la cola "Pedido" y a la cola "Preparado".
-
-El gráfico ..................
