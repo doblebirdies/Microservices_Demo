@@ -21,9 +21,9 @@ RabbitMQ:
 
 2) Este consumidor "ProductConsumer" una vez preparado el pedido emite una notificación mediante CQRS:
 
-	a)envía un mensaje a la cola "OrderPrepared", a la que está suscrito el consumidor "OrderConsumer" que enviará un correo al cliente indicando que su pedido ya está preparado
+	a) Envía un mensaje a la cola "OrderPrepared", a la que está suscrito el consumidor "OrderConsumer" que enviará un correo al cliente indicando que su pedido ya está preparado
 	
-	b)Ejecuta la opción de emvia rpedido (simulada con sleep) y envía un mensaje a la cola "OrderShipped" para enviar correo al cliente.
+	b) Ejecuta la opción de emvia rpedido (simulada con sleep) y envía un mensaje a la cola "OrderShipped" para enviar correo al cliente.
 
 Como podemos ver, tenemos comandos, consultas y notificaciones con CQRS, comunicación con mensajería de colas con RabbitMQ y comunicación por http con Refit.
 
