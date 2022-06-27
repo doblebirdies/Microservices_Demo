@@ -2,19 +2,22 @@
 {
     public class EmailSender : IEmailSender
     {
-        public void SendOrderCanceledEmail(string email)
+        public async Task SendOrderCanceledEmail(string email)
         {
             Console.WriteLine("Su pedido ha sido cancelado por falta de stock");
+            await Task.FromResult(true);
         }
 
-        public void SendOrderPreparedEmail(string email)
+        public async Task SendOrderPreparedEmail(string email)
         {
             Console.WriteLine("Su pedido está preparado y listo para enviar");
+            await Task.FromResult(true);
         }
 
-        public void SendOrderShippedEMail(string email)
+        public async Task SendOrderShippedEMail(string email)
         {
             Console.WriteLine("Su pedido ha sido enviado y lo recibirá en los proximos días");
-        }
+            await Task.FromResult(true);
+        }        
     }
 }

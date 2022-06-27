@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using ms.shop.application.DTOs;
 using ms.shop.domain.Interfaces;
 
 namespace ms.shop.application.Commands.Handlers
@@ -16,7 +15,8 @@ namespace ms.shop.application.Commands.Handlers
         public async Task<bool> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
         {
             await orderRepository.DeleteAsync(request.id);
-            return await orderRepository.SaveChangesAsync();            
+            return await orderRepository.SaveChangesAsync();      
+            //Se debería lanzar mensaje a cola para avisar de cancelar el envío ......
         }
 
 

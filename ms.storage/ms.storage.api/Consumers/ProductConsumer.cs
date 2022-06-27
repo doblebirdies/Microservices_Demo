@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
-using ms.communcations.rabbitmq.Consumers;
-using ms.communcations.rabbitmq.Events;
+using ms.communications.rabbitmq.Consumers;
 using ms.communications.rabbitmq.Events;
-using ms.storage.application.Commands;
+using ms.storage.application.Notifications;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
@@ -29,12 +28,7 @@ namespace ms.storage.api.Consumers
 
 
         public void Subscribe()
-        {
-
-
-            o hay una forma genérica (que puede estar en el curso de udemy), o hay que crear un createproductconsumer y un preparedproductconsumer, es decir una clase para cada consumidor y añadirlos todos en el program como el actual
-
-
+        {            
             var factory = new ConnectionFactory()
             {
                 HostName = configuration.GetValue<string>("Communication:EventBus:HostName")
@@ -42,14 +36,15 @@ namespace ms.storage.api.Consumers
             connection = factory.CreateConnection();
             var channel = connection.CreateModel();
 
-            var queue = typeof(OrderCreatedEvent).Name;
+            //var queue = typeof(OrderCreatedEvent).Name;
+            //channel.QueueDeclare(queue, durable: true, exclusive: false, autoDelete: false, null);            
 
-            channel.QueueDeclare(queue, durable: true, exclusive: false, autoDelete: false, null);
+            //var consumer = new EventingBasicConsumer(channel);
+            //consumer.Received += ReceivedEvent;
 
-            var consumer = new EventingBasicConsumer(channel);
-            consumer.Received += ReceivedEvent;
-
-            channel.BasicConsume(queue: queue, autoAck: true, consumer: consumer);
+            //channel.BasicConsume(queue: queue, autoAck: true, consumer: consumer);
+            
+            SubscribeEvent(typeof(OrderCreatedEvent).Name, channel);                        
         }
 
         private async void ReceivedEvent(object sender, BasicDeliverEventArgs e)
@@ -57,10 +52,21 @@ namespace ms.storage.api.Consumers
             if (e.RoutingKey == typeof(OrderCreatedEvent).Name)
             {
                 var message = Encoding.UTF8.GetString(e.Body.Span);
-                var product = JsonSerializer.Deserialize<OrderCreatedEvent>(message);
-                
-                var result = await mediator.Send(new PreparedProductCommand(product.Product));
+                var order = JsonSerializer.Deserialize<OrderCreatedEvent>(message);
+
+                await mediator.Publish(new PreparedProductNotification(order)); 
             }            
+        }
+
+
+        private void SubscribeEvent(string queueName, IModel channel)
+        {            
+            channel.QueueDeclare(queueName, durable: true, exclusive: false, autoDelete: false, null);
+
+            var consumer = new EventingBasicConsumer(channel);
+            consumer.Received += ReceivedEvent;
+
+            channel.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
         }
 
 

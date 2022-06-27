@@ -2,8 +2,8 @@
 {
     public interface IEmailSender
     {
-        void SendOrderCanceledEmail(string email);
-        void SendOrderPreparedEmail(string email);
-        void SendOrderShippedEMail(string email);
+        Task SendOrderCanceledEmail(string email);
+        Task SendOrderPreparedEmail(string email);
+        Task SendOrderShippedEMail(string email);
     }
 }

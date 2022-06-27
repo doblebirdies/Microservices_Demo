@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ms.shop.application.Commands;
 using ms.shop.application.DTOs;
@@ -13,12 +14,12 @@ namespace ms.shop.api.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IMediator mediator;
-        private readonly IStorageApi storageApi;
+        private readonly IStorageApi storageApi;        
 
         public OrderController(IMediator mediator, IStorageApi storageApi)
         {
             this.mediator = mediator;
-            this.storageApi = storageApi;
+            this.storageApi = storageApi;            
         }
 
 
@@ -29,16 +30,14 @@ namespace ms.shop.api.Controllers
             //para llamar al método creado en el microservicio ms.storage
             if (!await storageApi.StockAvailable(order.Product))
             {
-                //Si NO hay stock
-                await mediator.Publish(new OrderCanceledNotification(order.Email));
-                //A su vez vamos a guardar el pedido pero con cantidad y precio 0
-                //en email el texto "pedido cancelado por falta de stock" para que quede registrado
-                order.Price = 0;
-                order.Quantity = 0;
-                order.Amount = 0;
-                order.Email = "Pedido cancelado por falta de stock";
+                //Si NO hay stock lanzamos el envento de cancelación de orden,
+                //que enviará mail al cliente mediante OrderCanceledEmailHandler
+                //y guardará el registro con valores que indiquen pedido anulado, cantidad = 0, etc... mediante OrderCanceledSaveHandler
+                await mediator.Publish(new OrderCancelNotification(order));
+                return Ok("Producto sin stock, pedido no realizado");
             }
-            return Ok(await mediator.Send(new CreateOrderCommand(order)));
+            else
+                return Ok(await mediator.Send(new CreateOrderCommand(order)));
         }
 
         [HttpGet("[action]")]

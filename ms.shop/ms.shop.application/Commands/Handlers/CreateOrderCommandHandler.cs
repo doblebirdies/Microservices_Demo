@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using ms.communcations.rabbitmq.Producers;
+using ms.communications.rabbitmq.Producers;
 using ms.communications.rabbitmq.Events;
 using ms.shop.domain.Entities;
 using ms.shop.domain.Interfaces;

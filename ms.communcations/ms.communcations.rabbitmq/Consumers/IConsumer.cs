@@ -1,4 +1,4 @@
-﻿namespace ms.communcations.rabbitmq.Consumers
+﻿namespace ms.communications.rabbitmq.Consumers
 {
     public interface IConsumer
     {

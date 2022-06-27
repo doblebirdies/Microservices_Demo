@@ -1,7 +1,10 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using ms.communcations.rabbitmq.Producers;
+using ms.communcations.rabbitmq.Middlewares;
+using ms.communications.rabbitmq.Consumers;
+using ms.communications.rabbitmq.Producers;
+using ms.shop.api.Consumers;
 using ms.shop.application.Commands;
 using ms.shop.application.Mappers;
 using ms.shop.application.Services;
@@ -24,9 +27,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt => {
 
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.AddSingleton<IEmailSender, EmailSender>();
 builder.Services.AddScoped<IStorageApi, StorageService>();
-builder.Services.AddScoped(typeof(IProducer), typeof(EventProducer));
+builder.Services.AddSingleton(typeof(IProducer), typeof(EventProducer));
 
 builder.Services.AddMediatR(typeof(CreateOrderCommand).Assembly); 
 
@@ -34,6 +37,9 @@ var automapperConfig = new MapperConfiguration(mapperConfig =>
 { mapperConfig.AddMaps(typeof(OrderMapperProfile).Assembly); });
 IMapper mapper = automapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
+
+builder.Services.AddSingleton(typeof(IConsumer), typeof(OrderConsumer));
+builder.Services.AddHostedService<UseRabbitConsumer>();
 
 var app = builder.Build();
 

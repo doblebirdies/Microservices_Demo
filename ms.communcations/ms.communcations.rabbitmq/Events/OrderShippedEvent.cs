@@ -2,7 +2,7 @@
 
 namespace ms.communications.rabbitmq.Events
 {
-    public class OrderCreatedEvent : IRabbitMqEvent
+    public class OrderShippedEvent : IRabbitMqEvent
     {
         public string Serialize() => JsonSerializer.Serialize(this);
 
@@ -12,5 +12,6 @@ namespace ms.communications.rabbitmq.Events
         public int Quantity { get; set; }
         public decimal Amount { get; set; }
         public string Email { get; set; }
+
     }
 }

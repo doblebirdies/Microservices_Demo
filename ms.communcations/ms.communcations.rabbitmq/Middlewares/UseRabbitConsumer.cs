@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Hosting;
-using ms.communcations.rabbitmq.Consumers;
+using ms.communications.rabbitmq.Consumers;
 
 namespace ms.communcations.rabbitmq.Middlewares
 {

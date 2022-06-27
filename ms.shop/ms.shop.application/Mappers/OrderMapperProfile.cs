@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using ms.communications.rabbitmq.Events;
-using ms.shop.application.Commands;
 using ms.shop.application.DTOs;
 using ms.shop.domain.Entities;
 

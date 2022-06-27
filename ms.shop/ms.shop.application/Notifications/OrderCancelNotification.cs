@@ -3,6 +3,6 @@ using ms.shop.application.DTOs;
 
 namespace ms.shop.application.Notifications
 {
-    public record OrderCanceledNotification(string email) : INotification;
+   public record OrderCancelNotification(OrderCreateDto order) : INotification;
     
 }

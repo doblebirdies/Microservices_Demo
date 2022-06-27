@@ -1,6 +1,6 @@
-﻿using ms.communcations.rabbitmq.Events;
+﻿using ms.communications.rabbitmq.Events;
 
-namespace ms.communcations.rabbitmq.Producers
+namespace ms.communications.rabbitmq.Producers
 {
     public interface IProducer
     {

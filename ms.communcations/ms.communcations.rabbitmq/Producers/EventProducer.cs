@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
-using ms.communcations.rabbitmq.Events;
+using ms.communications.rabbitmq.Events;
 using RabbitMQ.Client;
 using System.Text;
 
-namespace ms.communcations.rabbitmq.Producers
+namespace ms.communications.rabbitmq.Producers
 {
     public class EventProducer : IProducer
     {

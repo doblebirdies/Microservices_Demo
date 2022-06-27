@@ -1,8 +1,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using ms.communcations.rabbitmq.Consumers;
+using ms.communications.rabbitmq.Consumers;
 using ms.communcations.rabbitmq.Middlewares;
-using ms.communcations.rabbitmq.Producers;
+using ms.communications.rabbitmq.Producers;
 using ms.storage.api.Consumers;
 using ms.storage.application.Commands;
 using ms.storage.application.Mappers;
@@ -20,7 +20,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped(typeof(IProducer), typeof(EventProducer));
+builder.Services.AddSingleton(typeof(IProducer), typeof(EventProducer));
 builder.Services.AddDbContext<ApplicationDbContext>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DbConn"));

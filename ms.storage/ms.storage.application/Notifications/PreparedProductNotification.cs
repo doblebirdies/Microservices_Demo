@@ -1,7 +1,7 @@
 ﻿using MediatR;
-using ms.storage.application.DTOs;
+using ms.communications.rabbitmq.Events;
 
 namespace ms.storage.application.Notifications
 {
-    public record PreparedProductNotification(ProductDto product) : INotification;
+    public record PreparedProductNotification(OrderCreatedEvent order) : INotification;
 }

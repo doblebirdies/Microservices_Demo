@@ -1,4 +1,4 @@
-﻿namespace ms.communcations.rabbitmq.Events
+﻿namespace ms.communications.rabbitmq.Events
 {
     public interface IRabbitMqEvent
     {
